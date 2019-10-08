@@ -7,7 +7,7 @@ module.exports = {
     entry: path.resolve(__dirname, "src", "index.js"), //
     output: {
         path: path.join(__dirname, outputDir),
-        filename: "pokerOdds.js",
+        filename: "3dd3.js",
         publicPath: "/dist/"
     },
     resolve: {
