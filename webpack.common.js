@@ -1,17 +1,16 @@
-
 const path = require("path");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const outputDir = "./dist";
 
 module.exports = {
-    entry: path.resolve(__dirname, "src", "index.js"), //
+    entry: path.resolve(__dirname, "src", "index.js"), 
     output: {
         path: path.join(__dirname, outputDir),
-        filename: "3dd3.js",
+        filename: "[name].js",
         publicPath: "/dist/"
     },
     resolve: {
-        extensions: [".js"]
+        extensions: [".js"] 
     },
     module: {
         rules: [
@@ -19,24 +18,43 @@ module.exports = {
                 test: /\.js$/,
                 use: {
                     loader: "babel-loader",
-                    options: { presets: ["env"] }
+                    options: { presets: ["env"] } 
                 }
             },
             {
                 test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    use: ["css-loader", "postcss-loader"],
-                    fallback: "style-loader"
-                })
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: "../",
+                            hmr: process.env.NODE_ENV === "development"
+                        }
+                    },
+                    "css-loader",
+                    "postcss-loader"
+                ]
             },
             {
                 test: /\.scss/,
-                use: ExtractTextPlugin.extract({
-                    use: ["css-loader", "sass-loader", "postcss-loader"],
-                    fallback: "style-loader"
-                })
+                use: [
+                    {
+                        loader: MiniCssExtractPlugin.loader,
+                        options: {
+                            publicPath: "../",
+                            hmr: process.env.NODE_ENV === "development"
+                        }
+                    },
+                    "css-loader",
+                    "sass-loader",
+                    "postcss-loader"
+                ]
             }
         ]
     },
-    plugins: [new ExtractTextPlugin("[name].css"), require("autoprefixer")]
+    plugins: [new MiniCssExtractPlugin({
+        filename: "[name].css",
+        chunkFilename: "[id].css",
+        ignoreOrder: false 
+    }), require("autoprefixer")]
 };
