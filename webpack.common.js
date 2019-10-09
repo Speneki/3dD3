@@ -6,7 +6,7 @@ module.exports = {
     entry: path.resolve(__dirname, "src", "index.js"), 
     output: {
         path: path.join(__dirname, outputDir),
-        filename: "[name].js",
+        filename: "3dD3.js",
         publicPath: "/dist/"
     },
     resolve: {
@@ -53,7 +53,7 @@ module.exports = {
         ]
     },
     plugins: [new MiniCssExtractPlugin({
-        filename: "[name].css",
+        filename: "3dD3.css",
         chunkFilename: "[id].css",
         ignoreOrder: false 
     }), require("autoprefixer")]
